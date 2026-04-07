@@ -1,7 +1,5 @@
 import type { Transaction, ReconcileRequest } from "../types";
 
-// ─── Validation ──────────────────────────────────────────────────────────────
-
 interface ValidationError {
   field: string;
   message: string;
@@ -12,10 +10,6 @@ interface ValidationResult {
   errors: ValidationError[];
 }
 
-/**
- * Validates a single transaction object.
- * Returns an array of field-level errors (empty if valid).
- */
 function validateTransaction(
   txn: unknown,
   index: number,
@@ -58,10 +52,8 @@ function validateTransaction(
   return errors;
 }
 
-/**
- * Validates the full reconciliation request body.
- * Returns a structured result with all field-level errors.
- */
+// Validates the full reconciliation request body.
+// Returns a structured result with all field-level errors.
 export function validateReconcileRequest(body: unknown): ValidationResult {
   const errors: ValidationError[] = [];
 
@@ -98,10 +90,6 @@ export function validateReconcileRequest(body: unknown): ValidationResult {
   };
 }
 
-/**
- * Type guard: narrows the validated body to a ReconcileRequest.
- * Only call this after `validateReconcileRequest` returns `valid: true`.
- */
 export function asReconcileRequest(body: unknown): ReconcileRequest {
   const record = body as Record<string, unknown>;
   return {
